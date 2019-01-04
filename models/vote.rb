@@ -2,6 +2,9 @@ require_relative './../config/init.rb'
 class Vote < ActiveRecord::Base
     belongs_to :answer
     belongs_to :user
+    # ensures that for each answer_id, user_id only exists once in that group
+    # currently using a method to validate
+    # validates :answer_id, uniqueness: {scope: :user_id}
 
 end
 

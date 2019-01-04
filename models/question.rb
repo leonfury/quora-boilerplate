@@ -21,3 +21,10 @@ patch '/question_edit/:id' do #edit action
     question.save
     redirect to "/user_profile/#{session[:user_id]}"
 end
+
+post '/search_question' do
+    p "#############################################################"
+    p params[:search]
+
+    redirect to "/question_all/#{params[:search]}"
+end
