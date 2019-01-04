@@ -41,7 +41,9 @@ post '/answer/:id/upvote/:user_id' do
         else
             p "do nothing"
         end
-        redirect to "/question/#{Question.find(Answer.find(params[:id]).question_id).id}"
+
+        true
+        # redirect to "/question/#{Question.find(Answer.find(params[:id]).question_id).id}"
     end
 end
 
