@@ -15,10 +15,15 @@ gem 'activerecord', '~> 5.2.0'
 gem 'rake'
 
 gem 'thin'
+###########################
+#Added by Leon
+gem 'sqlite3'
+#also added  sqlite3 (1.3.13) to gemfile.lock
+###########################
 
-# group :development do
-#   gem "shotgun"
-# end
+group :development do
+  gem "shotgun"
+end
 
 group :production do
   # Heroku

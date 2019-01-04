@@ -1,0 +1,24 @@
+<h2> Editting Answer Page </h2>
+<h4> Question Details </h4>
+<p>
+    <%= "Question ID: #{@question.id} Asked by #{User.find(@question.user_id).full_name}" %>
+    <br><%= "First Asked: #{@question.created_at}" %>
+    <br><%= "Last Update: #{@question.updated_at}" %>
+</p>
+
+<h4> Question </h4>
+<p><%= @question.question %></p>
+
+<hr>
+
+<h2> Edit Answer </h2>
+
+<h4> Original Answer </h4>
+<%= @answer.answer %>
+
+<h4> Update Answer </h4>
+<form action="/answer/<%= @answer.id %>/edit" method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <input type="text" name="answer" value="<%= @answer.answer %>">
+    <input type="submit" value="submit" class="btn btn-raised btn-secondary text-center">
+</form>

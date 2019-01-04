@@ -6,11 +6,102 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <link rel="stylesheet" type="text/css" href="css/application.css">
+
+
+
+    <link rel="stylesheet" type="text/css" href="/../css/bootstrap.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <style>
+            .question_list {
+                border: 1px solid red;
+                /* word-break: break-word !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important; */
+            }
+        </style>
+
   </head>
   <body>
 
-    <%= yield %>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom pt-3">
+            <form action="/" method="get" class="ml-1">
+                <input type="submit" value="QUORA PIRATE" class="navbar-brand btn btn-outline-primary">
+            </form>
+            
+            <form action="/question_all" method="get" class="ml-3" >
+                <input type="submit" value="All Questions" class="btn btn-outline-info">
+            </form>   
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav mr-auto">
+
+                <% if session[:signed_in] == true && session[:user_id] != nil %>
+                <% p session[:signed_in] %>   
+                <% p session[:user_id] %>
+                <form action="/user_profile/<%= session[:user_id] %>" method="get" class="ml-3" >
+                    <input type="submit" value="<%= User.find(session[:user_id]).full_name %> Account" class="btn btn-outline-info">
+                </form>   
+
+                <form action="/question/new" method="get" class="ml-3" >
+                    <input type="submit" value="Ask New Question" class="btn btn-outline-info">
+                </form>   
+            
+                <% end %>
+
+            </div>
+
+            <!-- login signup logout -->
+            <div class="form-inline">
+
+                <% if session[:signed_in] == true %>
+                    <p> Welcome <%= User.find(session[:user_id]).full_name %> </p>
+                <% end %>
+                
+                <% if session[:signed_in] == true && session[:user_id] != nil %>
+                    <% p session[:signed_in] %>   
+                    <% p session[:user_id] %>
+                     
+                    <form action="/logout" method="post" class="ml-3" >
+                        <input type="submit" value="Logout" class="btn btn-outline-info">
+                    </form> 
+
+                <% else %>
+    
+                    <form action="/login_page" method="get" class="ml-3" >
+                        <input type="submit" value="Login" class="btn btn-outline-info mr-3"/>
+                    </form>
+
+                    <form action="/signup_page" method="get" class="ml-3" >
+                        <input type="submit" value="Sign Up" class="btn btn-outline-info mr-3"/>
+                    </form>
+    
+                <% end %>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="ml-2 mr-3">
+
+        <%= yield %>
+    </div>
+
+    <script>
+        "use strict";
+        if ('<%= @error %>' === 'wrong_password') {
+            alert(`Wrong password, please try again`);
+        }
+        if ('<%= @error %>' === 'wrong_email') {
+            alert(`User email doesn't exist`);
+        }
+        console.log('<%= @error %>');
+    </script>
+    
 
   </body>
 </html>

@@ -1,0 +1,47 @@
+
+<h2> Question Details </h2>
+
+<p> 
+    <%= "Question ID : #{@question.id} First Posted on : #{@question.created_at}" %> 
+    <br> <%= "Last updated at : #{@question.updated_at}" %> 
+    <br> <%= "Asked by user: #{@user.full_name}" %> 
+    <br> <%= @question.question %> 
+</p>
+
+
+<form action="/user_profile/<%= @user.id %>" method="get" class="d-inline mr-3">
+    <input type="submit" value="View User Detail" class="btn btn-raised btn-secondary text-center"/>
+</form>
+
+
+
+<% if session[:signed_in] && session[:user_id] == @user.id %>
+
+
+    <form action="/question_edit/<%= @question.id %>" method="get" class="d-inline mr-3">
+        <input type="submit" value="Edit Entry" class="btn btn-raised btn-secondary text-center">
+    </form>
+  
+<% end %>
+
+
+<!-- Adding Answer -->
+<% if session[:signed_in] %>
+    <hr>
+    <form method="post" action="/answer_add" class="d-inline mr-3 form-group">
+        <input type="hidden" name="answer[question_id]" value="<%= @question.id %>">
+        <input type="hidden" name="answer[user_id]" value="<%= session[:user_id] %>">
+
+ 
+        <textarea type="text" name="answer[answer]" placeholder="Your Answer Here...." class="form-control w-50 border rounded" rows="5" style="min-width:500px;"></textarea>
+        <input type=submit value="Add Answer" class="btn btn-raised btn-secondary text-center mt-3">
+    </form>  
+<% end %>
+<br>
+
+<hr>
+
+<h2> Answers </h2>
+<ul id="all_answers">
+    <%= erb :"answer/answer_list", :layout => false %>
+</ul>

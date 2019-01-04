@@ -1,0 +1,15 @@
+<form method="post" action="/answer_add" class="d-inline mr-3">
+    <input type="hidden" name="answer[question_id]" value="<%= @question.id %>">
+    <input type="hidden" name="answer[user_id]" value="<%= session[:user_id] %>">
+    <input type="text" name="answer[answer]" placeholder="Answer">
+    <input type=submit value="Add Answer" class="btn btn-raised btn-secondary text-center">
+</form>  
+
+<form>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                abc
+            </textarea>
+      </div>
+    </form>

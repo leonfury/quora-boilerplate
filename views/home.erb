@@ -1,2 +1,17 @@
-<h1>Quora Clone</h1>
-<%= "Welcome #{@name}!" %>
+ <h2> Home Page </h2>
+<section class="row"> 
+    <ul id="all_questions" class="col-6">
+        <h2> Recent Questions </h2>
+        <%= erb :"question/question_index", :layout => false %>
+    </ul>
+    
+    <ul class="col-6">
+        <h2> Top Answers </h2>
+       <%= erb :"answer/answer_list", :layout => false %>
+    </ul>
+  
+</section>
+
+
+
+

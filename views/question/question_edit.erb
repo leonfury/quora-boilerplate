@@ -1,0 +1,16 @@
+<h2> Question Edit</h2>
+
+<p><%= "Question ID: #{@question.id}" %></p>
+<p><%= "First Asked: #{@question.created_at}" %></p>
+<p><%= "Last Update: #{@question.updated_at}" %></p>
+
+<h2> Question </h2>
+<p><%= @question.question %></p>
+
+
+<h2> Edit Question </h2>
+<form action="/question_edit/<%= @question.id %> " method="post" class="form-group">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <textarea type="text" name="question" placeholder="Edit Question Here" class="form-control w-50 border rounded" rows="5" style="min-width:500px;"> <%= @question.question %>  </textarea>
+    <input type="submit" value="submit" class="btn btn-raised btn-secondary text-center">
+</form>

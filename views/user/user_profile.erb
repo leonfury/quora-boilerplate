@@ -1,0 +1,51 @@
+<% if session[:signed_in] && session[:user_id] == @user.id %>
+    <h2> Your Profile </h2>
+<% else %>
+    <h2> User Profile </h2>
+<% end %>
+
+
+<ul>
+    <li><%= "User Id is #{@user.id}" %></li>
+    <li><%= "Full name : #{@user.full_name}" %></li>
+    <li><%= "Email : #{@user.email}" %></li>
+    <li><%= "Total questions is #{@user.questions.size}" %></li>
+    <li><%= "Total answers is #{@user.answers.size}" %></li>
+</ul>
+<hr>
+
+<section class="row"> 
+    <ul id="all_questions" class="col-6">
+
+        <% if session[:signed_in] && session[:user_id] == @user.id %>
+            <h2> Your questions </h2>
+        <% else %>
+            <h2> User questions </h2>
+        <% end %>
+<!-- ########################### -->
+
+
+
+<!-- ########################### -->
+
+        <%= erb :"question/question_index", :layout => false %>
+
+
+
+<!-- ########################### -->
+
+    </ul>
+
+    <hr>
+
+    <ul id="all_questions" class="col-6">
+            <% if session[:signed_in] && session[:user_id] == @user.id %>
+                <h2> Your Answers </h2>
+            <% else %>
+                <h2> User Answers </h2>
+            <% end %>
+
+            <%= erb :"answer/answer_list", :layout => false %>
+
+    </ul>
+</section>

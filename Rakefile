@@ -58,6 +58,7 @@ namespace :db do
   task :create do
     puts "Create database #{DB_NAME} if it doesn't exist..."
     exec("createdb #{DB_NAME}")
+    # touch DB_NAME
   end
 
   desc "Drop the database at #{DB_NAME}"
@@ -80,6 +81,7 @@ namespace :db do
   desc "Populate the database with dummy data by running db/seeds.rb"
   task :seed do
     require APP_ROOT.join('db', 'seeds.rb')
+    puts "Users table seeded successfully!"
   end
 
   desc "Returns the current schema version number"

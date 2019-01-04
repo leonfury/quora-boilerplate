@@ -1,0 +1,57 @@
+
+<% @questions.each do |question| %>
+<li class="list-unstyled m-2">
+
+    <a href="/question/<%= question.id %>" class="btn btn-outline-info w-100 text-left">
+            
+        <div class="row border-bottom text-dark" style="line-height: 14px;"> 
+
+            <div id="question_author<%= question.id %>" class="border-right pt-2 ml-1 col-1" style="min-width: 100px;">
+                <p class="font-italic" > <%= "By #{User.find(question.user_id).full_name}" %> </p> 
+                <p><%= "#{question.answers.size} answers" %> </p>
+            </div>
+            
+            <div id="question<%= question.id %>" class="w-100 pt-2 col-10"> 
+                <p class="question_list"> <%= question.question %> </p>
+            </div>
+        </div>
+            
+        <div class="row ml-1 pt-3 text-dark">
+            <% if Question.find(question.id).answers.size > 0 %>
+                <h6 class="mr-1"> #1 Answer : </h6>
+                <p><%= Answer.find(Question.find(question.id).answers.order('total_vote DESC')[0].id).answer %> </p>
+            <% else %>
+                <h6> No answer yet :( </h6>
+            <% end %>
+        </div>
+
+        <% if session[:signed_in] && session[:user_id] == question.user_id && @user_edit %>
+            <form action="/question_edit/<%= question.id %>" method="get" class="d-inline mr-3">
+                <input type="submit" value="Edit Question" class="btn btn-raised btn-secondary text-center">
+            </form>    
+
+            <form action="/question_delete/<%= question.id %> " method="post" class="d-inline mr-3">
+                <input id="hidden" type="hidden" name="_method" value="delete">
+                <input type="submit" value="Delete" class="btn btn-raised btn-secondary text-center">
+            </form>
+        <% end %>
+
+    </a>
+
+</li>
+
+
+<script>
+    question_author = document.getElementById('question_author<%= question.id %>');
+    question = document.getElementById('question<%= question.id %>');
+    <% if session[:signed_in] && session[:user_id] == question.user_id  %>
+        question_author.classList.add('text-warning');
+        question.classList.add('text-warning');
+    <% else %>
+        question_author.classList.remove('text-warning');
+        question.classList.remove('text-warning');
+    <% end %>
+</script>
+
+<% end %>
+

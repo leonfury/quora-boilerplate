@@ -1,0 +1,107 @@
+
+<% @answers.each do |answer| %>
+    <li class="list-unstyled w-100">
+        <a href="/question/<%= answer.question_id %>" class="btn btn-outline-info w-100 text-justify border border-primary rounded p-2 m-2 ">
+            <div class="row">
+                <div class="d-inline border-right border-secondary text-center mr-2 col-1" style="min-width: 150px">
+                    <h5> Votes </h5>
+                    <h4> <%= answer.total_vote %> </h4>
+
+                    <% if session[:signed_in] %>
+                        <form action='/answer/<%= answer.id %>/upvote/<%= session[:user_id] %>' method="post" clas="text-center ">
+                            <button id="up<%= answer.id %>" type="submit" style="width: 100%;" class="btn btn-raised btn-secondary text-center"/>
+                                Upvote
+                            </button>
+                        </form>                   
+
+                        <form action='/answer/<%= answer.id %>/novote/<%= session[:user_id] %>' method="post" clas="text-center ">
+                            <button id="none<%= answer.id %>" type="submit" style="width: 100%;" class="btn btn-raised btn-secondary text-center"/>
+                                Dilemma
+                            </button>
+                        </form>                    
+
+                        <form action='/answer/<%= answer.id %>/downvote/<%= session[:user_id] %>' method="post" clas="text-center ">
+                            <button id="down<%= answer.id %>" type="submit" value="Downvote" style="width: 100%;" class="btn btn-raised btn-secondary text-center"/>
+                                Downvote
+                            </button>
+                        </form>
+                    <% end %>
+                </div>
+
+                <div>
+                    <div class="d-inline col-10 text-dark">
+                        <p id="answer_author<%= answer.id %>" style="line-height: 2px;"> <%= "Answer By: #{User.find(answer.user_id).full_name}" %> </p>
+                        <h4 id="answer<%= answer.id %>"> <%=  answer.answer %> </h4>
+                        <hr>
+                        <p style="line-height: 2px;"> Answer to : </p>
+                        
+                        <h5><%= "#{Question.find(answer.question_id).question}" %>  </h5>
+                    </div>
+                
+                    <div class="row ml-1">
+                        <% if session[:signed_in] && session[:user_id] == answer.user_id %>
+                            <form action="/answer/<%= answer.id %>/edit" method="get" class="d-inline mr-3">
+                                <button type="submit" class="btn btn-raised btn-secondary text-center"/> 
+                                    Edit Answer
+                                </button>
+                            </form>
+                    
+                            <form action="/answer/<%= answer.id %>/delete " method="post" class="d-inline mr-3">
+                                <input id="hidden" type="hidden" name="_method" value="delete">
+                                <button type="submit" class="btn btn-raised btn-secondary text-center"/> 
+                                    Delete Answer
+                                </button>
+                            </form>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+                
+        </a>
+
+        <script>
+            up = document.getElementById('up<%= answer.id %>');
+            none = document.getElementById('none<%= answer.id %>');
+            down = document.getElementById('down<%= answer.id %>');
+            answer_author = document.getElementById('answer_author<%= answer.id %>');
+            answer = document.getElementById('answer<%= answer.id %>');
+
+            <% if session[:signed_in] %>
+                // check for upvote
+                up_query = <%= check_vote(answer.id, session[:user_id], 1) %>
+                up_exist = up_query[0]
+                // if upvote true
+                if (up_exist) {
+                    up.classList.remove("btn-secondary");
+                    up.classList.add("btn-success");
+                }
+                else {
+                    up.classList.remove("btn-success");
+                    up.classList.add("btn-secondary");
+                }
+                
+                // check for upvote
+                down_query = <%= check_vote(answer.id, session[:user_id], -1) %>
+                down_exist = down_query[0]
+                // if downvote true
+                if (down_exist) {
+                    down.classList.remove("btn-secondary");
+                    down.classList.add("btn-danger");
+                }
+                else {
+                    down.classList.remove("btn-danger");
+                    down.classList.add("btn-secondary");
+                }                        
+            <% end %>
+
+            <% if session[:signed_in] && session[:user_id] == answer.user_id  %>
+                answer_author.classList.add('text-warning');
+                answer.classList.add('text-warning');
+            <% else %>
+                answer_author.classList.remove('text-warning');
+                answer.classList.remove('text-warning');
+            <% end %>
+            
+        </script>
+    </li>
+<% end %>
