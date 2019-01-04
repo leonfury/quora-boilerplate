@@ -2,10 +2,10 @@
 <h2> Question Details </h2>
 
 <p> 
-    <%= "Question ID : #{@question.id} First Posted on : #{@question.created_at}" %> 
-    <br> <%= "Last updated at : #{@question.updated_at}" %> 
+    <%= "Question ID : #{@question.id} First Posted on : #{@question.created_at.to_s[0..9]}" %> 
+    <br> <%= "Last updated at : #{@question.updated_at.to_s[0..9]}" %> 
     <br> <%= "Asked by user: #{@user.full_name}" %> 
-    <br> <%= @question.question %> 
+    <h4> <%= @question.question %> </h4>
 </p>
 
 

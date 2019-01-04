@@ -41,10 +41,8 @@ post '/answer/:id/upvote/:user_id' do
         else
             p "do nothing"
         end
-
-        true
-        # redirect to "/question/#{Question.find(Answer.find(params[:id]).question_id).id}"
     end
+    p "#{Answer.find(params[:id]).total_vote}"
 end
 
 #novote
@@ -69,12 +67,10 @@ post '/answer/:id/novote/:user_id' do
                 answer = Answer.find(params[:id])
                 answer.update(total_vote: answer.total_vote + 1)
             end
-
             vote.delete
-
         end
-        redirect to "/question/#{Question.find(Answer.find(params[:id]).question_id).id}"
     end
+    p "#{Answer.find(params[:id]).total_vote}"
 end
 
 
@@ -114,8 +110,7 @@ post '/answer/:id/downvote/:user_id' do
         else
             p "do nothing"
         end
-
-        redirect to "/question/#{Question.find(Answer.find(params[:id]).question_id).id}"
     end
+    p "#{Answer.find(params[:id]).total_vote}"
 end
 

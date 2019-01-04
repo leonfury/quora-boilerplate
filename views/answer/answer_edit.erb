@@ -17,8 +17,8 @@
 <%= @answer.answer %>
 
 <h4> Update Answer </h4>
-<form action="/answer/<%= @answer.id %>/edit" method="post">
+<form action="/answer/<%= @answer.id %>/edit" method="post" class="form-group">
     <input id="hidden" type="hidden" name="_method" value="patch">
-    <textarea type="text" name="answer[answer]" placeholder="Your Answer Here...." class="form-control w-50 border rounded" rows="5" style="min-width:500px;"><%= @answer.answer %></textarea>
+    <textarea type="text" name="answer" placeholder="Your Answer Here...." class="form-control w-50 border rounded" rows="5" style="min-width:500px;"><%= @answer.answer %></textarea>
     <input type="submit" value="submit" class="btn btn-raised btn-secondary text-center">
 </form>

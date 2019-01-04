@@ -16,10 +16,10 @@
             </div>
         </div>
             
-        <div class="row ml-1 pt-3 text-dark">
+        <div class="ml-1 pt-3 text-dark">
             <% if Question.find(question.id).answers.size > 0 %>
                 <h6 class="mr-1"> #1 Answer : </h6>
-                <p><%= Answer.find(Question.find(question.id).answers.order('total_vote DESC')[0].id).answer %> </p>
+                <p class="input-text w-100" ><%= Answer.find(Question.find(question.id).answers.order('total_vote DESC')[0].id).answer %> </p>
             <% else %>
                 <h6> No answer yet :( </h6>
             <% end %>

@@ -35,8 +35,6 @@ helpers do
     return [false, 0]        
   end
 
-
-
 =begin
 
   # This will return the current user, if they exist

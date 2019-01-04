@@ -10,7 +10,7 @@
 
                 <% if session[:signed_in] %>
                     <!-- <form action='/answer/<%= answer.id %>/upvote/<%= session[:user_id] %>' method="post" clas="text-center "> -->
-                    <form  clas="text-center ">
+                    <form  class="text-center ">
                         <button id="up<%= answer.id %>" type="submit" style="width: 100%;" class="btn btn-raised btn-secondary text-center"/>
                             Upvote
                         </button>
@@ -22,7 +22,7 @@
                         </button>
                     </form>                    
 
-                    <form action='/answer/<%= answer.id %>/downvote/<%= session[:user_id] %>' method="post" clas="text-center ">
+                    <form class="text-center ">
                         <button id="down<%= answer.id %>" type="submit" value="Downvote" style="width: 100%;" class="btn btn-raised btn-secondary text-center"/>
                             Downvote
                         </button>
@@ -65,11 +65,31 @@
     </a>
 
     <script>
-        up = document.getElementById('up<%= answer.id %>');
+        // up = document.getElementById('up<%= answer.id %>');
         none = document.getElementById('none<%= answer.id %>');
         down = document.getElementById('down<%= answer.id %>');
         answer_author = document.getElementById('answer_author<%= answer.id %>');
         answer = document.getElementById('answer<%= answer.id %>');
+
+        function upvote_true() {
+            document.getElementById('up<%= answer.id %>').classList.remove("btn-secondary");
+            document.getElementById('up<%= answer.id %>').classList.add("btn-success");
+        }
+
+        function upvote_false() {
+            document.getElementById('up<%= answer.id %>').classList.remove("btn-success");
+            document.getElementById('up<%= answer.id %>').classList.add("btn-secondary");
+        }
+
+        function downvote_true() {
+            down.classList.remove("btn-secondary");
+            down.classList.add("btn-danger");
+        }
+
+        function downvote_false() {
+            down.classList.remove("btn-danger");
+            down.classList.add("btn-secondary");
+        }
 
         <% if session[:signed_in] %>
             // check for upvote
@@ -77,12 +97,10 @@
             up_exist = up_query[0]
             // if upvote true
             if (up_exist) {
-                up.classList.remove("btn-secondary");
-                up.classList.add("btn-success");
+                upvote_true();
             }
             else {
-                up.classList.remove("btn-success");
-                up.classList.add("btn-secondary");
+                upvote_false();
             }
             
             // check for upvote
@@ -90,12 +108,10 @@
             down_exist = down_query[0]
             // if downvote true
             if (down_exist) {
-                down.classList.remove("btn-secondary");
-                down.classList.add("btn-danger");
+                downvote_true();
             }
             else {
-                down.classList.remove("btn-danger");
-                down.classList.add("btn-secondary");
+                downvote_false();
             }                        
         <% end %>
 
@@ -114,19 +130,46 @@
         $('#up<%= answer.id %>').click(function()
         {
             event.preventDefault();
-            alert('upvote onclick occur');
             $.ajax({
                 method: "POST", // Set request type
                 url: '/answer/<%= answer.id %>/upvote/<%= session[:user_id] %>', // Set URL for AJAX to point to
                 success: function(result) {
-                    // update count
-                    // $("#count<%= answer.id %>").html( <%= answer.total_vote %> );
-                    $("#count<%= answer.id %>").html("XXX");
-                    // update color
-                    $("#up<%= answer.id %>").html("TEST");
                     // 2. What to do after receiving a response from the server
-                    console.log('success');
-                    alert('success');
+                    $("#count<%= answer.id %>").html(result);
+                    $('#up<%= answer.id %>').removeClass("btn-secondary").addClass("btn-success");
+                    $('#down<%= answer.id %>').removeClass("btn-danger").addClass("btn-secondary");
+                }
+            });
+        });
+
+        $('#none<%= answer.id %>').click(function()
+        {
+            event.preventDefault();
+            $.ajax({
+                method: "POST", // Set request type
+                url: '/answer/<%= answer.id %>/novote/<%= session[:user_id] %>', // Set URL for AJAX to point to
+                success: function(result) {
+                    // 2. What to nonefter receiving a response from the server
+                    $("#count<%= answer.id %>").html(result);
+                    $('#up<%= answer.id %>').removeClass("btn-success").addClass("btn-secondary");
+                    $('#down<%= answer.id %>').removeClass("btn-danger").addClass("btn-secondary");
+                }
+            });
+        });
+
+
+        $('#down<%= answer.id %>').click(function()
+        {
+            event.preventDefault();
+            $.ajax({
+                method: "POST", // Set request type
+                url: '/answer/<%= answer.id %>/downvote/<%= session[:user_id] %>', // Set URL for AJAX to point to
+                success: function(result) {
+                    // 2. What to do after receiving a response from the server
+                    $("#count<%= answer.id %>").html(result);
+                    $('#down<%= answer.id %>').removeClass("btn-secondary").addClass("btn-danger");
+                    $('#up<%= answer.id %>').removeClass("btn-success").addClass("btn-secondary");
+
                 }
             });
         });

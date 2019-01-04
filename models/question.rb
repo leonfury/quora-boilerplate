@@ -12,6 +12,9 @@ end
 
 delete '/question_delete/:id' do #delete action
     Question.find(params[:id]).delete
+    Answer.where(question_id: params[:id]).each do |answer|
+        answer.delete
+    end
     redirect to "/user_profile/#{session[:user_id]}"
 end
 
